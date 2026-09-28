@@ -18,15 +18,15 @@
   <nav class="pagination-links" aria-label="Pagination">
     {% if paginator.previous_page %}
       {% if paginator.page == 2 %}
-      <a href="{{site.url}}/" class="newer" aria-label="Newer posts"><i class="fa-solid fa-backward"></i></a>
+      <a href="{{ site.url }}{{ site.baseurl }}/" class="newer" aria-label="Newer posts"><i class="fa-solid fa-backward"></i></a>
       {% else %}
-      <a href="{{site.url}}/page{{paginator.previous_page}}" class="newer" aria-label="Newer posts"><i class="fa-solid fa-backward"></i></a>
+      <a href="{{ site.url }}{{ site.baseurl }}/page{{paginator.previous_page}}" class="newer" aria-label="Newer posts"><i class="fa-solid fa-backward"></i></a>
       {% endif %}
     {% else %}
     <span class="previous" aria-hidden="true"><i class="fa-solid fa-backward"></i></span>
     {% endif %}
     {% if paginator.next_page %}
-    <a href="{{site.url}}/page{{paginator.next_page}}" class="older" aria-label="Older posts"><i class="fa-solid fa-forward"></i></a>
+    <a href="{{ site.url }}{{ site.baseurl }}/page{{paginator.next_page}}" class="older" aria-label="Older posts"><i class="fa-solid fa-forward"></i></a>
     {% else %}
     <span class="next" aria-hidden="true"><i class="fa-solid fa-forward"></i></span>
     {% endif %}

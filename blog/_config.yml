@@ -1,4 +1,5 @@
 name: Chip or Software? · MAX on Qualcomm
+title: Chip or Software? · MAX on Qualcomm
 description: >
     Re-running a published Qualcomm Cloud AI 100 Ultra vs NVIDIA A100 LLM-serving
     benchmark with Modular's MAX and Mojo, to test whether its conclusions came from the
@@ -8,7 +9,7 @@ about: >
     accelerators, and a learning log for Mojo and MAX.
 
 master_repo: false
-url: "https://kredd2506.github.io/modlearn"
+url: "https://kredd2506.github.io"
 baseurl: "/modlearn"
 markdown: kramdown
 highlighter: rouge
