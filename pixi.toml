@@ -1,0 +1,12 @@
+[workspace]
+authors = ["Manish Reddy <kreddy.manish@gmail.com>"]
+channels = ["https://conda.modular.com/max", "conda-forge"]
+name = "modlearn"
+platforms = ["osx-arm64", "linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = "3.12.*"
+modular = ">=26.6.0,<27"

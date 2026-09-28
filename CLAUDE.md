@@ -12,7 +12,8 @@ ones that support it, and publish every test setting, not a selection.
 
 ## Protocol (do not change without updating the blog's methodology section)
 - Test matrix: output tokens {10, 50, 100, 200, 1024, 2048} × concurrency {1, 2, 4, 16, 32}
-- 20 fixed prompts in `bench/prompts.jsonl`, temperature 0.0, max-model-len 8192, fp16 (record if bf16)
+- 20 fixed prompts in `bench/prompts.jsonl`, temperature 0.0, max-model-len 8192, **bf16 on every engine**
+  (MAX offers bf16, not fp16, for most architectures. The paper used fp16; report this deviation.)
 - Client: Python `requests` + `ThreadPoolExecutor` against the OpenAI-compatible endpoint (same client for MAX and vLLM)
 - Throughput = total generated tokens / max request completion time in the batch
 - Power: `nvidia-smi --query-gpu=power.draw --format=csv` at 1 s (NVIDIA), `qaic-util -q` (Qualcomm),
@@ -42,4 +43,7 @@ ones that support it, and publish every test setting, not a selection.
 - Every results row records: model, engine + version, hardware, device count, dtype, repeat index, timestamp.
 - Runs must be resumable: skip cells already present in the output CSV.
 - Raw dumps go in `results/raw/` (ignored). Summarized CSVs in `results/` are tracked, and blog numbers must come from them.
-- Environment is managed with pixi (`pixi.toml`). Pin the MAX version.
+- Environment: pixi (`pixi.toml`, locked for osx-arm64 + linux-64), with MAX 26.6 stable and Mojo 1.1. Run tools as `pixi run max ...`.
+- MAX 26.6 has no GPT-2 or AWQ support (check `pixi run max list`). Don't assume a paper model runs; verify it first.
+- On macOS, Apple-GPU serving needs full Xcode + `xcodebuild -downloadComponent MetalToolchain`. Otherwise it fails with
+  "Metal Compiler failed to compile metallib". CPU works without it (`--devices cpu --quantization-encoding float32`).

@@ -19,3 +19,6 @@ results/raw/
 # Secrets
 .env
 *.pem
+# pixi environments
+.pixi/*
+!.pixi/config.toml
