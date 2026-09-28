@@ -23,7 +23,7 @@ from pathlib import Path
 
 import requests
 
-from bench.client import run_batch, summarize_batch
+from bench.client import run_batch, summarize_batches
 from bench.power import make_sampler
 
 REPO = Path(__file__).resolve().parent.parent
@@ -36,6 +36,9 @@ DEFAULTS = {
     "seed": 0,
     "power": "none",
     "idle_seconds": 10,
+    # Repeat a cell's batch until the measurement window lasts at least this long, so 1 s power samples
+    # aren't averaged with idle time on short cells (a 10-token batch can finish in 0.2 s).
+    "min_window_s": 5.0,
     "prompts": "bench/prompts.jsonl",
     "results_dir": "results",
     "request_timeout_s": 900,
@@ -156,36 +159,46 @@ def main(argv: list[str] | None = None) -> int:
 
     for i, (rep, n_tok, conc) in enumerate(todo[: args.max_cells]):
         offset = (rep * 7 + cfg["output_tokens"].index(n_tok) * 3 + conc) % len(prompts)
-        batch = pick_prompts(prompts, conc, offset)
+        key = {"repeat": rep, "output_tokens": n_tok, "concurrency": conc}
+        batches = []
         sampler.begin()
         t0 = time.time()
-        results = run_batch(
-            cfg["base_url"], cfg["model"], batch, n_tok,
-            ignore_eos=cfg["ignore_eos"], timeout=cfg["request_timeout_s"],
-        )
+        while not batches or time.time() - t0 < cfg["min_window_s"]:
+            batch = pick_prompts(prompts, conc, offset + len(batches) * conc)
+            results = run_batch(
+                cfg["base_url"], cfg["model"], batch, n_tok,
+                ignore_eos=cfg["ignore_eos"], timeout=cfg["request_timeout_s"],
+            )
+            append_rows(
+                requests_csv,
+                [{**key, "batch": len(batches), **ident, **dataclasses.asdict(r), "itl_s": r.itl_s} for r in results],
+            )
+            batches.append(results)
         t1 = time.time()
         power = sampler.end(t0, t1)
 
-        key = {"repeat": rep, "output_tokens": n_tok, "concurrency": conc}
-        append_rows(requests_csv, [{**key, **ident, **dataclasses.asdict(r), "itl_s": r.itl_s} for r in results])
-        s = summarize_batch(results)
+        s = summarize_batches(batches)
         tput = s["throughput_tok_s"]
+        tokens = s["generated_tokens"]
         cell = {
             **key, **ident, **s,
             "t_start": t0, "t_end": t1,
+            "min_window_s": cfg["min_window_s"],
             "avg_power_w": power.avg_w,
             "energy_j": power.energy_j,
             "power_samples": power.n_samples,
             "power_source": power.source,
-            "tok_s_per_w": tput / power.avg_w if power.avg_w else None,
-            "j_per_token": power.energy_j / s["generated_tokens"] if power.energy_j and s["generated_tokens"] else None,
+            # tokens per joule == tok/s per W, computed over the whole window (including the small gaps
+            # between back-to-back batches), so it stays consistent with energy_j.
+            "tok_s_per_w": tokens / power.energy_j if power.energy_j else None,
+            "j_per_token": power.energy_j / tokens if power.energy_j and tokens else None,
             "git": git_state(),
         }
         append_rows(cells_csv, [cell])
         w = f"{power.avg_w:.1f} W" if power.avg_w else "no power"
         print(
             f"[{i + 1}/{len(todo)}] rep={rep} tokens={n_tok:>4} conc={conc:>2}: "
-            f"{tput:8.1f} tok/s  {w}  errors={s['n_errors']}",
+            f"{tput:8.1f} tok/s  {w}  batches={s['n_batches']}  errors={s['n_errors']}",
             flush=True,
         )
     sampler.close()

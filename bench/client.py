@@ -133,13 +133,23 @@ def run_batch(
 
 
 def summarize_batch(results: list[RequestResult]) -> dict:
-    """Per-cell metrics. `throughput_tok_s` is the paper's definition."""
+    return summarize_batches([results])
+
+
+def summarize_batches(batches: list[list[RequestResult]]) -> dict:
+    """Per-cell metrics over one or more back-to-back batches of the same shape.
+
+    `throughput_tok_s` is the paper's definition (generated tokens / max completion time in the batch),
+    pooled over batches: total tokens / sum of each batch's max completion time.
+    """
+    results = [r for b in batches for r in b]
     ok = [r for r in results if not r.error]
     tokens = sum(r.completion_tokens for r in ok)
-    wall = max((r.completion_s for r in results), default=0.0)
+    wall = sum(max((r.completion_s for r in b), default=0.0) for b in batches)
     ttfts = sorted(r.ttft_s for r in ok if r.ttft_s is not None)
     itls = [r.itl_s for r in ok if r.itl_s is not None]
     return {
+        "n_batches": len(batches),
         "n_requests": len(results),
         "n_errors": len(results) - len(ok),
         "n_finish_length": sum(r.finish_reason == "length" for r in ok),

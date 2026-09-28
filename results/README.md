@@ -14,3 +14,9 @@ Print a paper-style grid with `pixi run summarize results/<run>-cells.csv --metr
   **understates power and overstates tok/s/W** for cells well under a few seconds. Throughput, TTFT, and ITL
   are unaffected. The same limitation applies to the paper's 1 s `nvidia-smi` sampling. It's fixed in later
   runs by repeating short batches until the measurement window is long enough.
+- **pilot-mac-smollm2-135m-minwin5** (same setup, with `min_window_s = 5`): each cell repeats its batch until
+  the power window lasts at least 5 s (≥5 samples). Short-cell tok/s/W fell by up to 12× (10 tok × 1: 201 → 16),
+  while 2048-token cells, which were already long enough, match the first run within ~1%. The tok/s/W CV across
+  repeats fell from a median of 9.5% (worst 141%) to 5.5% (worst 29%). The cells CSV was written by the code
+  committed alongside it; the recorded git state is `7e1ef71-dirty`, where the diff is this commit's harness change.
+  **Use this run, not the first one, for power.**

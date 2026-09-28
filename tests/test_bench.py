@@ -82,11 +82,12 @@ def test_connection_error_is_recorded_not_raised():
     assert r.error and r.completion_tokens == 0
 
 
-def _write_config(tmp_path, base_url):
-    cfg = tmp_path / "cfg.toml"
+def _write_config(tmp_path, base_url, name="mocktest", min_window_s=0):
+    cfg = tmp_path / f"{name}.toml"
     cfg.write_text(
         f"""[run]
-name = "mocktest"
+name = "{name}"
+min_window_s = {min_window_s}
 base_url = "{base_url}"
 model = "{MODEL}"
 engine = "mock"
@@ -129,6 +130,25 @@ def test_runner_writes_cells_and_resumes(server, tmp_path):
     runner.main([str(cfg)])  # nothing left to do
     with open(cells_csv) as f:
         assert len(list(csv.DictReader(f))) == 8
+
+
+def test_min_window_repeats_short_batches(server, tmp_path):
+    # Each 4-token request takes ~8 ms on the mock, so a 0.3 s window needs many batches.
+    cfg = _write_config(tmp_path, server, name="minwin", min_window_s=0.3)
+    runner.main([str(cfg), "--max-cells", "2"])
+    with open(tmp_path / "results" / "minwin-cells.csv") as f:
+        rows = list(csv.DictReader(f))
+    assert len(rows) == 2
+    for r in rows:
+        n_batches = int(r["n_batches"])
+        assert n_batches > 1
+        assert float(r["t_end"]) - float(r["t_start"]) >= 0.3
+        assert int(r["generated_tokens"]) == n_batches * int(r["output_tokens"]) * int(r["concurrency"])
+        assert int(r["n_requests"]) == n_batches * int(r["concurrency"])
+        assert float(r["throughput_tok_s"]) == pytest.approx(int(r["generated_tokens"]) / float(r["wall_s"]))
+    with open(tmp_path / "results" / "raw" / "minwin" / "requests.csv") as f:
+        req = list(csv.DictReader(f))
+    assert {int(x["batch"]) for x in req} == set(range(max(int(r["n_batches"]) for r in rows)))
 
 
 def _plist_stream(samples):

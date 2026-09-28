@@ -1,0 +1,17 @@
+# M1 pilot: MAX on the M4 Pro GPU. Start the server first:
+#   pixi run max serve --model HuggingFaceTB/SmolLM2-135M-Instruct --quantization-encoding bfloat16 \
+#     --device-memory-utilization 0.5 --max-length 8192
+# and, in a separate terminal for power (needs sudo):
+#   sudo powermetrics --samplers gpu_power -i 1000 -f plist -o results/raw/powermetrics.plist
+[run]
+name = "pilot-mac-smollm2-135m-minwin5"
+base_url = "http://localhost:8000/v1"
+model = "HuggingFaceTB/SmolLM2-135M-Instruct"
+engine = "max"
+engine_version = "26.6.0"
+hardware = "Apple M4 Pro GPU (24 GB unified)"
+devices = 1
+dtype = "bfloat16"
+power = "powermetrics"
+min_window_s = 5.0
+powermetrics_file = "results/raw/powermetrics.plist"
