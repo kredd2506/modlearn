@@ -1,0 +1,46 @@
+{
+  "config": {
+    "output_tokens": [
+      10,
+      50,
+      100,
+      200,
+      1024,
+      2048
+    ],
+    "concurrency": [
+      1,
+      2,
+      4,
+      16,
+      32
+    ],
+    "repeats": 3,
+    "ignore_eos": true,
+    "seed": 0,
+    "power": "powermetrics",
+    "idle_seconds": 10,
+    "prompts": "bench/prompts.jsonl",
+    "results_dir": "results",
+    "request_timeout_s": 900,
+    "name": "pilot-mac-smollm2-135m",
+    "base_url": "http://localhost:8000/v1",
+    "model": "HuggingFaceTB/SmolLM2-135M-Instruct",
+    "engine": "max",
+    "engine_version": "26.6.0",
+    "hardware": "Apple M4 Pro GPU (24 GB unified)",
+    "devices": 1,
+    "dtype": "bfloat16",
+    "powermetrics_file": "results/raw/powermetrics.plist"
+  },
+  "git": "8a574dc",
+  "python": "3.12.14",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "started": "2026-09-28T19:15:48-0400",
+  "idle_power": {
+    "avg_w": 6.0734434278430015e-05,
+    "energy_j": 0.0006076512365144869,
+    "n_samples": 11,
+    "source": "powermetrics"
+  }
+}
