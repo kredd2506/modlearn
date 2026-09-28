@@ -7,8 +7,8 @@ tags: [mojo, max, modular, qualcomm, llm-inference]
 excerpt: "A UCSD study found Qualcomm's Cloud AI 100 Ultra drew 10–35× less power than A100s for LLM serving, yet was more efficient per token on only 3 of 12 models. Both sides ran vLLM. We re-run it with Modular's MAX to ask whether that was the chip or the software."
 ---
 
-<!-- Draft. Written for the White Paper Jekyll theme (kredd2506/white-paper).
-     To publish: move to _posts/YYYY-MM-DD-chip-or-software-max-qualcomm.md and copy assets/modlearn/.
+<!-- Draft (Jekyll doesn't build _drafts). To publish: move to blog/_posts/YYYY-MM-DD-chip-or-software-max-qualcomm.md,
+     add `date:` to the front matter, and push to main. The Pages workflow deploys it.
      Each hypothesis section reports yes / no / unanswered from results/. -->
 
 ## TL;DR

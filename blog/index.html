@@ -1,0 +1,50 @@
+---
+layout: default
+title: Chip or Software?
+---
+<div class="post">
+  <h2>Was it the chip or the software?</h2>
+  <p class="post-date">Started September 2026 · in progress</p>
+
+  <p>
+    A 2025 UCSD study (<a href="https://arxiv.org/abs/2507.00418">arXiv:2507.00418</a>)
+    served 12 LLMs on the <strong>Qualcomm Cloud AI 100 Ultra</strong> and on
+    <strong>4×/8× NVIDIA A100</strong>, using vLLM on both. Its headline was
+    <strong>10–35× lower power</strong>. Per token, though, Qualcomm was more efficient on only
+    <strong>3 of 12</strong> models, and it served most models at ~6–25 tok/s.
+  </p>
+
+  <p>
+    Since then, Qualcomm acquired Modular, and
+    <a href="https://www.modular.com/blog/modcon-qualcomm">ModCon 2026</a> showed
+    <strong>MAX</strong> running on Cloud AI 100 Ultra. This project re-runs the study
+    with MAX as the serving engine to test whether those numbers reflected the chip or the software.
+  </p>
+
+  <p><strong>Hypotheses, stated before any runs:</strong></p>
+  <ul>
+    <li><strong>H1:</strong> on Qualcomm, MAX substantially outperforms the paper's vLLM numbers</li>
+    <li><strong>H2:</strong> on the A100, MAX matches or beats vLLM in throughput and tok/s/W</li>
+    <li><strong>H3:</strong> a fair A100 setup (1 GPU for ≤8B models) shrinks Qualcomm's apparent advantage</li>
+    <li><strong>H4:</strong> one Mojo kernel runs unchanged on Apple, NVIDIA, and Qualcomm silicon</li>
+  </ul>
+
+  <p>
+    <a href="https://github.com/kredd2506/modlearn"><strong>Code &amp; data on GitHub</strong></a>
+    &nbsp;&middot;&nbsp;
+    <a href="{{ site.url }}/about">About this work</a>
+  </p>
+</div>
+
+<h3>Posts</h3>
+<div class="listing">
+    {% for post in paginator.posts %}
+    <div class="post other link">
+      <h2><a href="{{site.url}}{{post.url}}">{{ post.title }}</a></h2>
+      <p class="post-date">{{ post.date | date_to_string }}</p>
+      {{ post.excerpt }}
+    </div>
+    {% else %}
+    <p>First results coming soon.</p>
+    {% endfor %}
+</div>

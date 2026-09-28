@@ -1,0 +1,32 @@
+name: Chip or Software? · MAX on Qualcomm
+description: >
+    Re-running a published Qualcomm Cloud AI 100 Ultra vs NVIDIA A100 LLM-serving
+    benchmark with Modular's MAX and Mojo, to test whether its conclusions came from the
+    hardware or from the software stack.
+about: >
+    An open, reproducible benchmarking study of LLM inference on Qualcomm and NVIDIA
+    accelerators, and a learning log for Mojo and MAX.
+
+master_repo: false
+url: "https://kredd2506.github.io/modlearn"
+baseurl: "/modlearn"
+markdown: kramdown
+highlighter: rouge
+
+plugins: ['jekyll-paginate', 'jekyll-gist', 'jekyll-feed']
+paginate: 10
+
+exclude: [THEME-LICENSE]
+
+logo:             logo.png
+disqus_shortname:
+rtl: false
+owner:
+  name:           Manish Reddy
+  avatar:         "https://avatars.githubusercontent.com/u/kredd2506"
+  email:          "kreddy.manish@gmail.com"
+  github:         https://github.com/kredd2506
+
+google_analytics:
+google_verify:
+bing_verify:
