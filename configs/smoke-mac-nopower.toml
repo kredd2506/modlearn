@@ -1,0 +1,16 @@
+# Harness smoke test against the local MAX server, without power data (no sudo needed).
+[run]
+name = "smoke-mac-nopower"
+base_url = "http://localhost:8000/v1"
+model = "HuggingFaceTB/SmolLM2-135M-Instruct"
+engine = "max"
+engine_version = "26.6.0"
+hardware = "Apple M4 Pro GPU (24 GB unified)"
+devices = 1
+dtype = "bfloat16"
+output_tokens = [10, 200]
+concurrency = [1, 4]
+repeats = 1
+idle_seconds = 0
+power = "none"
+results_dir = "results/raw/smoke"

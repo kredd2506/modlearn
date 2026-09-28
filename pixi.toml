@@ -6,12 +6,20 @@ platforms = ["osx-arm64", "linux-64"]
 version = "0.1.0"
 
 [tasks]
+bench = "python -m bench.run"
+summarize = "python -m bench.summarize"
+test = "pytest -q tests"
 
 [dependencies]
 python = "3.12.*"
 modular = ">=26.6.0,<27"
+requests = ">=2.34.2,<3"
+pytest = ">=9.1.1,<10"
 
 # Apple-GPU kernels need the Metal compiler, which ships with full Xcode, not the Command Line Tools.
 # Setup once: install Xcode, then run `xcodebuild -downloadComponent MetalToolchain` (with this DEVELOPER_DIR).
 [target.osx-arm64.activation.env]
 DEVELOPER_DIR = "/Applications/Xcode.app/Contents/Developer"
+
+[target.linux-64.pypi-dependencies]
+nvidia-ml-py = ">=13.615.71, <14"
