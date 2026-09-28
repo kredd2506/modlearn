@@ -46,4 +46,8 @@ ones that support it, and publish every test setting, not a selection.
 - Environment: pixi (`pixi.toml`, locked for osx-arm64 + linux-64), with MAX 26.6 stable and Mojo 1.1. Run tools as `pixi run max ...`.
 - MAX 26.6 has no GPT-2 or AWQ support (check `pixi run max list`). Don't assume a paper model runs; verify it first.
 - On macOS, Apple-GPU serving needs full Xcode + `xcodebuild -downloadComponent MetalToolchain`. Otherwise it fails with
-  "Metal Compiler failed to compile metallib". CPU works without it (`--devices cpu --quantization-encoding float32`).
+  "Metal Compiler failed to compile metallib". `pixi.toml` sets `DEVELOPER_DIR` for osx-arm64, so `pixi run` finds it.
+  CPU works without it (`--devices cpu --quantization-encoding float32`).
+- On the Mac GPU, pass `--device-memory-utilization 0.5` (the default KV cache exceeds Metal's max buffer size on 24 GB) and
+  `--max-length 8192`. Use greedy decoding (`--temperature 0 --top-k 1`); the default sampling produces nonsense-looking text from tiny models.
+- Mojo 1.1 GPU imports are `from max.gpu.host import DeviceContext` and `from max.gpu import thread_idx, ...`. The older `gpu.*` paths fail.

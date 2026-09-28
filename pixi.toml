@@ -10,3 +10,8 @@ version = "0.1.0"
 [dependencies]
 python = "3.12.*"
 modular = ">=26.6.0,<27"
+
+# Apple-GPU kernels need the Metal compiler, which ships with full Xcode, not the Command Line Tools.
+# Setup once: install Xcode, then run `xcodebuild -downloadComponent MetalToolchain` (with this DEVELOPER_DIR).
+[target.osx-arm64.activation.env]
+DEVELOPER_DIR = "/Applications/Xcode.app/Contents/Developer"
