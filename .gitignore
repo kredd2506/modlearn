@@ -1,0 +1,21 @@
+# Private: personal plans and learning notes (not published)
+plans/
+learnings/
+
+# Source paper (link to arXiv instead of redistributing)
+*.pdf
+
+# Environments / build
+.pixi/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.ipynb_checkpoints/
+
+# Raw benchmark dumps (summaries in results/ are tracked)
+results/raw/
+
+# Secrets
+.env
+*.pem

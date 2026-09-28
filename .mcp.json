@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "modular-docs": {
+      "type": "http",
+      "url": "https://docs.modular.com/mcp"
+    }
+  }
+}
