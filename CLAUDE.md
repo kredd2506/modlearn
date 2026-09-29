@@ -1,7 +1,7 @@
 # modlearn
 
-This repo re-runs the benchmark from Sada et al., "Serving LLMs in HPC Clusters: Qualcomm Cloud AI 100
-Ultra vs NVIDIA A100" ([arXiv:2507.00418](https://arxiv.org/abs/2507.00418)), with **Modular MAX** as the
+This repo re-runs the benchmark from Sada et al., "Serving LLMs in HPC Clusters: A Comparative Study of
+Qualcomm Cloud AI 100 Ultra and NVIDIA Data Center GPUs" ([arXiv:2507.00418](https://arxiv.org/abs/2507.00418)), with **Modular MAX** as the
 serving engine next to vLLM, and uses Mojo for custom kernels. The public output is a blog post in `blog/`.
 
 Question under test: were the paper's results limited by the software stack (vLLM on both sides)? The four

@@ -4,7 +4,7 @@ title: "Was it the chip or the software? Re-running the Qualcomm Cloud AI 100 vs
 comments: true
 categories: [ml-systems, benchmarking]
 tags: [mojo, max, modular, qualcomm, llm-inference]
-excerpt: "A UCSD study found Qualcomm's Cloud AI 100 Ultra drew 10–35× less power than A100s for LLM serving, yet was more efficient per token on only 3 of 12 models. Both sides ran vLLM. We re-run it with Modular's MAX to ask whether that was the chip or the software."
+excerpt: "A UCSD study found Qualcomm's Cloud AI 100 Ultra competitive with A100s on energy efficiency for LLM serving, ahead per token on 3 of 12 models, on 2025 software. We re-run it with Modular's MAX to measure how much a newer stack adds."
 ---
 
 <!-- Draft (Jekyll doesn't build _drafts). To publish: move to blog/_posts/YYYY-MM-DD-chip-or-software-max-qualcomm.md,
@@ -17,15 +17,15 @@ _TBD once results are in._
 ## The paper, and what its numbers actually say
 - Sada et al. ([arXiv:2507.00418](https://arxiv.org/abs/2507.00418)) served 12 LLMs with vLLM on the Qualcomm Cloud
   AI 100 Ultra and on 4×/8× A100.
-- The headline is 10–35× lower power. Per token, though, Qualcomm is more efficient on 3 of 12 models, and its
-  throughput is ~6–25 tok/s for most models.
+- It found competitive energy efficiency, a per-token lead on 3 of 12 models, and much finer hardware allocation.
+  Most models served at ~6–25 tok/s, and similar models needed very different device counts: headroom for software.
 - Since then, Qualcomm acquired Modular, and [ModCon 2026](https://www.modular.com/blog/modcon-qualcomm) showed MAX
   running on Cloud AI 100 Ultra.
 
 ## Hypotheses (stated before running anything)
-- **H1:** on Qualcomm, MAX substantially outperforms the paper's vLLM numbers
+- **H1:** on Qualcomm, MAX substantially raises throughput over the paper's numbers at similar power
 - **H2:** on the A100, MAX ≥ vLLM in throughput and tok/s/W
-- **H3:** a fair A100 configuration (1 GPU for ≤8B models) shrinks Qualcomm's apparent advantage
+- **H3:** a right-sized A100 (1 GPU for ≤8B models) raises the A100's tokens per watt
 - **H4:** one Mojo kernel runs unchanged on Apple, NVIDIA and Qualcomm silicon
 
 ## Method: what we kept, what we changed

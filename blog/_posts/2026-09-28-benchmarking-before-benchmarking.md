@@ -10,14 +10,13 @@ This project asks one question: **was it the chip or the software?**
 
 In 2025, Sada et al. published
 ["Serving LLMs in HPC Clusters: A Comparative Study of Qualcomm Cloud AI 100 Ultra and NVIDIA Data Center GPUs"](https://arxiv.org/abs/2507.00418).
-They served 12 models with vLLM on both platforms. The headline was that the Qualcomm card drew
-**10–35× less power**. Their own Table 2 (200 output tokens, 4 concurrent requests) tells a more mixed story, though.
-Qualcomm has the better tokens per second per watt on only **3 of 12** models, and it serves most models at about
-6–25 tok/s.
+They served 12 models with vLLM on both platforms and found that the Qualcomm card offers competitive energy
+efficiency, leads in tokens per second per watt on **3 of 12** models, and can serve models on far less hardware
+(one 36 W device for an 8B model). It also serves most models at about 6–25 tok/s, which leaves room to grow.
 
 Both sides ran vLLM, so every number measures the chip and its software stack together. I'm re-running the study with
-Modular's [MAX](https://max.modular.com/) serving engine alongside vLLM, to see how much of that gap belongs to
-the software. The four hypotheses, written down before any runs, are on the [home page]({{ site.baseurl }}/).
+Modular's [MAX](https://max.modular.com/) serving engine alongside vLLM, to measure how much a newer software stack
+adds. The four hypotheses, written down before any runs, are on the [home page]({{ site.baseurl }}/).
 The code and data are at [github.com/kredd2506/modlearn](https://github.com/kredd2506/modlearn).
 For why I chose this paper and what I read in its numbers, see
 [Chip or software?]({{ site.baseurl }}/2026/09/28/why-this-paper.html).
