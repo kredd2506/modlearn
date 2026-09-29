@@ -40,7 +40,7 @@ DEFAULTS = {
     # aren't averaged with idle time on short cells (a 10-token batch can finish in 0.2 s).
     "min_window_s": 5.0,
     # Send one tiny unmeasured request right before each cell. The runner idles between cells (waiting for
-    # power samples), and the M4 Pro GPU pays ~170 ms to wake after >1-2 s idle (results/ttft-gap-mac.csv);
+    # power samples), and the M4 Pro GPU pays ~160 ms to wake after >1-2 s idle (results/ttft-gap-mac.csv);
     # the paper reports steady-state serving, so we measure warm.
     "prewarm": True,
     "prompts": "bench/prompts.jsonl",

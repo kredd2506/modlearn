@@ -50,7 +50,7 @@ ones that support it, and publish every test setting, not a selection.
   CPU works without it (`--devices cpu --quantization-encoding float32`).
 - On the Mac GPU, pass `--device-memory-utilization 0.5` (the default KV cache exceeds Metal's max buffer size on 24 GB) and
   `--max-length 8192`. Use greedy decoding (`--temperature 0 --top-k 1`); the default sampling produces nonsense-looking text from tiny models.
-- The runner uses `min_window_s = 5` (so power is measured over ≥5 s) and `prewarm = true` (the M4 Pro GPU pays ~170 ms to
+- The runner uses `min_window_s = 5` (so power is measured over ≥5 s) and `prewarm = true` (the M4 Pro GPU pays ~160 ms to
   wake after >1–2 s idle). Don't turn these off for power runs. See `results/README.md`.
 - `max benchmark`: its "Output throughput" row is per-request, not aggregate (use total output tokens / duration), and its
   random dataset doesn't force output length. It writes `sweep-serving-*/` log dirs into the working directory (ignored).
