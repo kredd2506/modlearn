@@ -1,0 +1,13 @@
+model,size_class,a100_gpus,a100_tok_s,a100_w,qaic_devices,qaic_tok_s,qaic_w
+GPT-2,small,4,2613,1205,1,218,38
+granite-3.2-8b,small,4,318,1246,1,25,36
+deepseek-llama-8b,small,4,674,1197,4,24,140
+deepseek-qwen-7b,small,4,719,999,4,22,140
+DeepSeek-Qwen-7B,small,4,368,1075,4,9,126
+Llama-3.1-8B-AWQ,small,4,678,1240,4,9,131
+Llama-4-Scout-17B,medium,8,272,2620,4,9,142
+DeepSeek-Qwen-32B,medium,8,190,2752,8,9,273
+Qwen-32B-AWQ,medium,4,250,1363,4,13,145
+DeepSeek-Llama-70B,large,8,104,2935,8,8,292
+Llama-3.3-70B-AWQ,large,8,170,2210,8,9,275
+Nemotron-70B,large,8,104,2983,4,6,148

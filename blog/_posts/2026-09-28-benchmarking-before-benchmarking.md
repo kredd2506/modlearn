@@ -19,6 +19,8 @@ Both sides ran vLLM, so every number measures the chip and its software stack to
 Modular's [MAX](https://max.modular.com/) serving engine alongside vLLM, to see how much of that gap belongs to
 the software. The four hypotheses, written down before any runs, are on the [home page]({{ site.baseurl }}/).
 The code and data are at [github.com/kredd2506/modlearn](https://github.com/kredd2506/modlearn).
+For why I chose this paper and what I read in its numbers, see
+[Chip or software?]({{ site.baseurl }}/2026/09/28/why-this-paper.html).
 
 This first post is not about Qualcomm or NVIDIA at all. It's about testing the stopwatch before timing the race.
 
