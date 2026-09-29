@@ -91,7 +91,7 @@ def power_vs_throughput(rows: list[dict]) -> None:
     ax.set_yticks(y, [r["label"] for r in rows], color=INK)
     ax.grid(axis="y", visible=False)
     ax.set_xlabel("Qualcomm vs the A100 setup: × lower (log scale)")
-    ax.set_title("7–35× less power, but 12–75× less throughput", pad=40)
+    ax.set_title("7–35× less power, at 12–75× less throughput", pad=40)
     ax.legend(loc="lower left", bbox_to_anchor=(0, 1.0), ncol=2, handletextpad=0.3, columnspacing=1.6,
               borderaxespad=0.2)
     fig.text(0.99, 0.01, "Sada et al., arXiv:2507.00418, Table 2 · 200 output tokens × 4 parallel requests",
@@ -122,7 +122,7 @@ def efficiency_ratio(rows: list[dict]) -> None:
     ax.text(0.94, len(rows) - 0.4, "← A100 better", color=MUTED, fontsize=12, va="center", ha="right")
     ax.set_ylim(-0.6, len(rows) - 0.1)
     ax.set_xlabel("Qualcomm tok/s/W ÷ A100 tok/s/W (log scale, 1× = parity)")
-    ax.set_title("Per token, Qualcomm is more efficient on 3 of 12 models")
+    ax.set_title("The baseline to beat: Qualcomm leads per token on 3 of 12")
     fig.text(0.99, 0.01, "Sada et al., arXiv:2507.00418, Table 2 · 200 output tokens × 4 parallel requests",
              ha="right", va="bottom", fontsize=11, color=MUTED)
     fig.tight_layout(rect=(0, 0.03, 1, 1))
