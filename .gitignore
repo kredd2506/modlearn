@@ -22,3 +22,6 @@ results/raw/
 # pixi environments
 .pixi/*
 !.pixi/config.toml
+
+# max benchmark writes log dirs into the working directory
+sweep-serving-*/
