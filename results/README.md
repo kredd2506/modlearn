@@ -16,7 +16,9 @@ Print a paper-style grid with `pixi run summarize results/<run>-cells.csv --metr
   runs by repeating short batches until the measurement window is long enough.
 - **pilot-mac-smollm2-135m-minwin5** (same setup, with `min_window_s = 5`): each cell repeats its batch until
   the power window lasts at least 5 s (≥5 samples). Short-cell tok/s/W fell by up to 12× (10 tok × 1: 201 → 16),
-  while 2048-token cells, which were already long enough, match the first run within ~1%. The tok/s/W CV across
+  while long cells (1024 and 2048 tokens) at concurrency 2–32 match the first run within 5% (2048 within 2%).
+  At concurrency 1, 1024- and 2048-token tok/s/W fell 16% and 10%, which is within the repeat-to-repeat spread
+  (2048 × 1 ranges 16–22 tok/s/W within a run); treated as noise, but watch for it on the A100. The tok/s/W CV across
   repeats fell from a median of 9.5% (worst 141%) to 5.5% (worst 29%). The cells CSV was written by the code
   committed alongside it; the recorded git state is `7e1ef71-dirty`, where the diff is this commit's harness change.
   **Use this run, not the first one, for power.**
@@ -32,7 +34,7 @@ prompt length. A controlled test sent single requests after idle gaps of 0–5 s
 | MAX on M4 Pro **GPU** (bf16) | ~66 ms | ~90 ms | ~100 ms | **~260 ms** | **~260 ms** |
 | MAX on **CPU** (fp32, control) | ~29 ms | ~30 ms | ~50 ms | ~50 ms | ~50 ms |
 
-After 1–2 s of idle the **GPU** pays about 170 ms extra on the next request. The CPU shows no such step, which
+After 1–2 s of idle the **GPU** pays about 160 ms extra on the next request (median 99.5 ms at a 1 s gap vs 261.6 ms at 2 s). The CPU shows no such step, which
 points to the Apple GPU waking from power-gating (consistent with the ~0 W idle power). A small ~20 ms idle
 penalty appears on both, from MAX scheduling or CPU power states. The runner now sends an unmeasured
 `prewarm` request just before each cell (the paper measures steady state). In a check with 2.5 s idle between

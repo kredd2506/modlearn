@@ -25,3 +25,6 @@ results/raw/
 
 # max benchmark writes log dirs into the working directory
 sweep-serving-*/
+
+# Claude Code agent worktrees
+.claude/worktrees/
