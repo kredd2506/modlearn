@@ -39,6 +39,10 @@ DEFAULTS = {
     # Repeat a cell's batch until the measurement window lasts at least this long, so 1 s power samples
     # aren't averaged with idle time on short cells (a 10-token batch can finish in 0.2 s).
     "min_window_s": 5.0,
+    # Send one tiny unmeasured request right before each cell. The runner idles between cells (waiting for
+    # power samples), and the M4 Pro GPU pays ~170 ms to wake after >1-2 s idle (results/ttft-gap-mac.csv);
+    # the paper reports steady-state serving, so we measure warm.
+    "prewarm": True,
     "prompts": "bench/prompts.jsonl",
     "results_dir": "results",
     "request_timeout_s": 900,
@@ -161,6 +165,8 @@ def main(argv: list[str] | None = None) -> int:
         offset = (rep * 7 + cfg["output_tokens"].index(n_tok) * 3 + conc) % len(prompts)
         key = {"repeat": rep, "output_tokens": n_tok, "concurrency": conc}
         batches = []
+        if cfg["prewarm"]:
+            run_batch(cfg["base_url"], cfg["model"], prompts[:1], 4, ignore_eos=True)
         sampler.begin()
         t0 = time.time()
         while not batches or time.time() - t0 < cfg["min_window_s"]:
