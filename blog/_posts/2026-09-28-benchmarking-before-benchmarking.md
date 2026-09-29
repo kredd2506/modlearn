@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Testing the stopwatch: building an LLM benchmark on a MacBook before renting GPUs"
-date: 2026-09-29
+date: 2026-09-28
 tags: [max, modular, benchmarking, llm-inference, power, apple-silicon]
 excerpt: "Before re-running a Qualcomm vs NVIDIA LLM-serving study on rented GPUs, I built and tested the benchmark on a MacBook. The pilot caught a power-sampling bias that inflated efficiency by up to 12× and a GPU wake-up delay hiding in the latency numbers, and my client matched Modular's own benchmark tool within 1–3%."
 ---
@@ -16,7 +16,7 @@ Qualcomm has the better tokens per second per watt on only **3 of 12** models, a
 6–25 tok/s.
 
 Both sides ran vLLM, so every number measures the chip and its software stack together. I'm re-running the study with
-Modular's [MAX](https://docs.modular.com/max/) serving engine alongside vLLM, to see how much of that gap belongs to
+Modular's [MAX](https://max.modular.com/) serving engine alongside vLLM, to see how much of that gap belongs to
 the software. The four hypotheses, written down before any runs, are on the [home page]({{ site.baseurl }}/).
 The code and data are at [github.com/kredd2506/modlearn](https://github.com/kredd2506/modlearn).
 
@@ -115,7 +115,7 @@ The fix was simple: repeat each cell's batch back to back until the measurement 
 
 How much a cell moved depends on how long its original batch lasted. Sub-second cells were overstated by 2–12×.
 Cells that already lasted 10 s or more should not move, and at concurrency 2–32 the 1024- and 2048-token cells match
-the first run within 5%. The two concurrency-1 cells moved more, by 20% (1024) and 11% (2048). I don't have a clean
+the first run within 5%. The two concurrency-1 cells moved more: tok/s/W fell 16% (1024) and 10% (2048). I don't have a clean
 explanation for those. The 2048 × 1 repeats already spread from 16 to 22 tok/s/W within each run, so I read it as
 noise rather than bias, but I'll watch for it on the A100.
 

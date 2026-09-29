@@ -30,8 +30,8 @@ _TBD once results are in._
 
 ## Method: what we kept, what we changed
 ## Pilot
-<!-- Covered in its own post: blog/_posts/2026-09-29-benchmarking-before-benchmarking.md. Link to it here
-     ({{ site.baseurl }}/2026/09/29/benchmarking-before-benchmarking.html) instead of repeating it. -->
+<!-- Covered in its own post: blog/_posts/2026-09-28-benchmarking-before-benchmarking.md. Link to it here
+     ({{ site.baseurl }}/2026/09/28/benchmarking-before-benchmarking.html) instead of repeating it. -->
 ## H2 + H3: A100, vLLM vs MAX
 ## H1: Qualcomm Cloud AI 100 Ultra on MAX
 ## H4: one Mojo kernel, several chips
